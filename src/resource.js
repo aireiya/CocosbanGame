@@ -1,6 +1,7 @@
 var res = {
     spritesheet_plist : "res/spritesheet.plist",
-    spritesheet_png : "res/spritesheet.png"
+    spritesheet_png : "res/spritesheet.png",
+    clear_png:"res/game_clear.png"
 };
 
 var g_resources = [];

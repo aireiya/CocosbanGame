@@ -16,6 +16,8 @@ var startTouch;
 var endTouch;
 var swipeTolerance = 10;//スワイプかを判断する閾値
 
+var anasuu = 0; //穴の数
+
 var gameScene = cc.Scene.extend({
   onEnter: function() {
     this._super();
@@ -52,6 +54,9 @@ var gameLayer = cc.Layer.extend({
       cratesArray[i] = [];　 //配列オブジェクトの生成
       for (j = 0; j < 7; j++) {
         switch (level[i][j]) {
+          case 2:
+            anasuu += 1;
+            break;
           case 4:
           case 6:
             playerSprite = cc.Sprite.create(cache.getSpriteFrame("player.png"));
@@ -71,6 +76,8 @@ var gameLayer = cc.Layer.extend({
             crateSprite.setScale(5);
             this.addChild(crateSprite);
             cratesArray[i][j] = crateSprite;//(i,j)の位置にcrateSpriteを入れる
+
+
             break;
           default:
             cratesArray[i][j] = null;//木箱のコード以外の場合は、その場所に木箱がない値としてnullを代入する
@@ -78,6 +85,18 @@ var gameLayer = cc.Layer.extend({
         }
       }
     }
+/*
+    var anaSprite = cc.Sprite.extend({
+      ctor: function() {
+        this._super();
+        this.initWithFile(res.clear_png);
+      if(anasuu == 0){
+        levelSprite.setPosition(240, 110);
+        levelSprite.setScale(5);
+        this.addChild(anaSprite);
+        }
+      }
+    });*/
     //return true;
     cc.eventManager.addListener(listener, this);
   },
@@ -97,6 +116,8 @@ swipeDirection();
 });
 //スワイプ方向を検出する処理
 function swipeDirection(){
+
+
     var distX = endTouch.x - startTouch.x ;
     var distY = endTouch.y - startTouch.y ;
     if(Math.abs(distX)+Math.abs(distY)>swipeTolerance){
@@ -129,32 +150,55 @@ function swipeDirection(){
     }
 }
 
-function move(deltaX,deltaY){
-switch(level[playerPosition.y+deltaY][playerPosition.x+deltaX]){
+function move(deltaX,deltaY){ //deltaはmoveの中身
+  //var size = cc.director.getWinSize();
+switch(level[playerPosition.y+deltaY][playerPosition.x+deltaX]){ //もしもプレイヤーの場所+move=移動先がcaseの数字なら
     case 0:
-    case 2:
+    case 2: //ただの移動
         level[playerPosition.y][playerPosition.x]-=4;
         playerPosition.x+=deltaX;
         playerPosition.y+=deltaY;
         level[playerPosition.y][playerPosition.x]+=4;
         playerSprite.setPosition(165+25*playerPosition.x,185-25*playerPosition.y);
     break;
-    case 3:
     case 5:
+        anasuu++;
+    case 3: //木箱と当たった時
         if(level[playerPosition.y+deltaY*2][playerPosition.x+deltaX*2]==0 ||
-           level[playerPosition.y+deltaY*2][playerPosition.x+deltaX*2]==2){
-            level[playerPosition.y][playerPosition.x]-=4;
-            playerPosition.x+=deltaX;
-            playerPosition.y+=deltaY;
-            level[playerPosition.y][playerPosition.x]+=1;
-            playerSprite.setPosition(165+25*playerPosition.x,185-25*playerPosition.y);
-            level[playerPosition.y+deltaY][playerPosition.x+deltaX]+=3;
-            var movingCrate = cratesArray[playerPosition.y][playerPosition.x];
+           level[playerPosition.y+deltaY*2][playerPosition.x+deltaX*2]==2){ //もしも木箱の先が床か穴だった場合
+             if(level[playerPosition.y+deltaY*2][playerPosition.x+deltaX*2]==2){
+               anasuu--;
+             }
+
+            level[playerPosition.y][playerPosition.x]-=4; //プレイヤーが居座ってたとこを床に
+            playerPosition.x+=deltaX; //x移動
+            playerPosition.y+=deltaY; //y移動
+            level[playerPosition.y][playerPosition.x]+=1; //木箱[3]が居座ってるので3+1=4
+            playerSprite.setPosition(165+25*playerPosition.x,185-25*playerPosition.y);//プレイヤー移動
+            level[playerPosition.y+deltaY][playerPosition.x+deltaX]+=3; //木箱移動
+            var movingCrate = cratesArray[playerPosition.y][playerPosition.x]; //画像移動
             movingCrate.setPosition(movingCrate.getPosition().x+25*deltaX,movingCrate.
             getPosition().y-25*deltaY);
             cratesArray[playerPosition.y+deltaY][playerPosition.x+deltaX]=movingCrate;
-            cratesArray[playerPosition.y][playerPosition.x]=null;
+            cratesArray[playerPosition.y][playerPosition.x]=null; //木箱移動させたので消す
+
+            if(anasuu == 0){
+              //cc.director.runScene(new GameClearScene());
+              //var label = cc.LabelTTF.create("GameClear", "Arial", 40);
+              //label.setPosition(200, 200);
+              //this.addChild(label, 1);
+             // GameClear();
+             cc.director.runScene(new GameClearScene());
+            }
+
         }
         break;
     }
 }
+/*
+function clearGame(){
+  anasuu--;
+  if(anasuu)
+
+}
+*/
