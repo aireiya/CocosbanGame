@@ -1,4 +1,6 @@
 //gameover.js
+var suu = 1;
+
 var gameclear = cc.Layer.extend({
     ctor: function() {
         this._super();
@@ -17,17 +19,22 @@ var gameclear = cc.Layer.extend({
         this.addChild(drop02);
         */
         //------------BGM---------
-        /*
-        audioEngine.stopMusic();
-        audioEngine = cc.audioEngine;
 
+        audioEngine.stopMusic();
+
+        audioEngine = cc.audioEngine;
+        audioEngine.playEffect(res.bgm_clear);
+
+
+
+        /*
         if (!audioEngine.isMusicPlaying()) {
           audioEngine.playMusic(res.bgm_GO, true);
         }
         */
         //-----------BGM----------
         // タップイベントリスナーを登録する
-        /*
+
                 cc.eventManager.addListener({
                     event: cc.EventListener.TOUCH_ONE_BY_ONE,
                     swallowTouches: true,
@@ -35,10 +42,10 @@ var gameclear = cc.Layer.extend({
                     onTouchMoved: this.onTouchMoved,
                     onTouchEnded: this.onTouchEnded
                 }, this);
-                */
+
         return true;
     },
-    /*
+
       onTouchBegan: function(touch, event) {
         return true;
       },
@@ -46,9 +53,9 @@ var gameclear = cc.Layer.extend({
       onTouchEnded: function(touch, event) {
         // 次のシーンに切り替える
         audioEngine.stopMusic();
-        cc.director.runScene(new gameScene());
+        cc.director.runScene(new "gameScene0" + suu ());
       },
-      */
+
 });
 
 var GameClearScene = cc.Scene.extend({
