@@ -6,9 +6,13 @@ var gameclear = cc.Layer.extend({
         this._super();
         var size = cc.director.getWinSize();
 
+        /*var pl = cc.Sprite.create(cache.getSpriteFrame("player.png"));
+        label.setPosition(size.width / 2, size.height / 2);
+        this.addChild(pl);*/
+
         //var label = cc.LabelTTF.create("GameOver", "Arial", 40);
         //label.setPosition(size.width / 2, size.height / 2);
-        //this.addChild(label, 1);
+        //this.addChild(label, 1); //文字つける時はこっち
 
         var drop01 = cc.Sprite.create(res.clear_png);　
         drop01.setPosition(size.width / 2, size.height * 0.5);　
@@ -53,7 +57,7 @@ var gameclear = cc.Layer.extend({
       onTouchEnded: function(touch, event) {
         // 次のシーンに切り替える
         audioEngine.stopMusic();
-        cc.director.runScene(new "gameScene0" + suu ());
+        cc.director.runScene(new gameScene ());
       },
 
 });
@@ -63,7 +67,7 @@ var GameClearScene = cc.Scene.extend({
         this._super();
 
         // 背景レイヤーをその場で作る
-        var backgroundLayer = new cc.LayerColor(new cc.Color(140, 200, 140, 128));
+        var backgroundLayer = new cc.LayerColor(new cc.Color(39, 38, 24, 128));
         this.addChild(backgroundLayer);
 
         var layer1 = new gameclear();
