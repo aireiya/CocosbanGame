@@ -49,7 +49,8 @@ var startTouch;
 var endTouch;
 var swipeTolerance = 10;//スワイプかを判断する閾値
 
-var anasuu = 0; //穴の数
+var anasuu = 0; //箱が入った穴の数
+var anaall = 2; //穴の合計
 
 var gameScene = cc.Scene.extend({
   onEnter: function() {
@@ -77,6 +78,19 @@ var gameLayer = cc.Layer.extend({
       audioEngine.playMusic(res.bgm_main, true);
     }
 
+    //文字表示
+    var label01 = cc.LabelTTF.create("Bキー,１つ戻る", "Arial", 20);
+    label01.setPosition(80, 35);
+    this.addChild(label01, 1); //文字つける時はこっち*/
+
+    var label02 = cc.LabelTTF.create("Rキー,最初にリセット", "Arial", 20);
+    label02.setPosition(105, 12);
+    this.addChild(label02, 1); //文字つける時はこっち*/
+
+    var label03 = cc.LabelTTF.create("マウスドラッグ,移動", "Arial", 20);
+    label03.setPosition(300, 12);
+    this.addChild(label03, 1); //文字つける時はこっち*/
+
     //init()するとこ
 
     //スプライトフレームのキャッシュオブジェクトを作成する
@@ -103,7 +117,11 @@ var gameLayer = cc.Layer.extend({
       for (j = 0; j < 7; j++) {
         switch (/*("*/level/*0" + kazu)*/[i][j]) {
           case 2:
-          anasuu++;
+          /*anasuu++;
+          if(anasuu > anaall){
+            anasuu = anaall;
+          }
+          console.log("anasuu" + anasuu );*/
             break;
           case 4:
           case 6:
@@ -206,13 +224,13 @@ function swipeDirection(){
         //  console.log("distY "+ distY );
             if(distY>0){ //上方向移動
             //  playerSprite.setPosition(playerSprite.getPosition().x,playerSprite.getPosition().y+25);
-               console.log("上 move(0,-1) distY "+ distY );
+               //console.log("上 move(0,-1) distY "+ distY );
               move(0,-1);
 
             }
             else{ //下方向移動
               //playerSprite.setPosition(playerSprite.getPosition().x,playerSprite.getPosition().y-25);
-              console.log("下 move(0,1) distY "+ distY );
+              //console.log("下 move(0,1) distY "+ distY );
               move(0,1);
             }
         }
@@ -243,13 +261,15 @@ switch(/*("*/level/*0" + kazu)*/[playerPosition.y+deltaY][playerPosition.x+delta
         playerSprite.setPosition(165+25*playerPosition.x,185-25*playerPosition.y);
     break;
     case 5:
-        anasuu++;
+        /*anasuu++;
+        console.log("anasuu" + anasuu );*/
     case 3: //木箱と当たった時
         if(/*("*/level/*0" + kazu)*/[playerPosition.y+deltaY*2][playerPosition.x+deltaX*2]==0 ||
            /*("*/level/*0" + kazu)*/[playerPosition.y+deltaY*2][playerPosition.x+deltaX*2]==2){ //もしも木箱の先が床か穴だった場合
-             if(/*("*/level/*0" + kazu)*/[playerPosition.y+deltaY*2][playerPosition.x+deltaX*2]==2){
+             /*if(level[playerPosition.y+deltaY*2][playerPosition.x+deltaX*2]==2){
                anasuu--;
-             }
+               console.log("anasuu" + anasuu );
+             }*/
 
             /*("*/level/*0" + kazu)*/[playerPosition.y][playerPosition.x]-=4; //プレイヤーが居座ってたとこを床に
             playerPosition.x+=deltaX; //x移動
@@ -263,6 +283,11 @@ switch(/*("*/level/*0" + kazu)*/[playerPosition.y+deltaY][playerPosition.x+delta
             cratesArray[playerPosition.y+deltaY][playerPosition.x+deltaX]=movingCrate;
             cratesArray[playerPosition.y][playerPosition.x]=null; //木箱移動させたので消す
 
+        }
+        break;
+    }
+            anachech();
+
             if(anasuu == 0){
               //cc.director.runScene(new GameClearScene());
               //var label = cc.LabelTTF.create("GameClear", "Arial", 40);
@@ -271,15 +296,16 @@ switch(/*("*/level/*0" + kazu)*/[playerPosition.y+deltaY][playerPosition.x+delta
              // GameClear();
                 stage += 1;
 
-                if(stage > 3){
+                if(stage > 4){
                     stage = 1;
                 }
                 cc.director.runScene(new GameClearScene());
             }
+            else {
+              anasuu = 0
+            }
 
-        }
-        break;
-    }
+
 }
 /*
 function clearGame(){
@@ -400,13 +426,25 @@ function stagesel (){
         level = [
           [1, 1, 1, 1, 1, 1, 1],
           [1, 1, 0, 0, 0, 0, 1],
-          [1, 1, 3, 0, 2, 0, 1],
+          [1, 1, 0, 3, 2, 0, 1],
           [1, 0, 0, 4, 0, 0, 1],
           [1, 0, 3, 1, 2, 0, 1],
           [1, 0, 0, 1, 1, 1, 1],
           [1, 1, 1, 1, 1, 1, 1]
         ];
         break;
+
+        case 4:
+          level = [
+            [1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 0, 0, 0, 0, 1],
+            [1, 1, 0, 0, 2, 0, 1],
+            [1, 0, 3, 4, 3, 0, 1],
+            [1, 0, 0, 1, 2, 0, 1],
+            [1, 0, 0, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1]
+          ];
+          break;
     }
 }
 
@@ -440,14 +478,36 @@ function stagesel_map(){
       level_map = [
         [1, 1, 1, 1, 1, 1, 1],
         [1, 1, 0, 0, 0, 0, 1],
-        [1, 1, 3, 0, 2, 0, 1],
+        [1, 1, 0, 3, 2, 0, 1],
         [1, 0, 0, 4, 0, 0, 1],
         [1, 0, 3, 1, 2, 0, 1],
         [1, 0, 0, 1, 1, 1, 1],
         [1, 1, 1, 1, 1, 1, 1]
       ];
       break;
+
+      case 4:
+        level = [
+          [1, 1, 1, 1, 1, 1, 1],
+          [1, 1, 0, 0, 0, 0, 1],
+          [1, 1, 0, 0, 2, 0, 1],
+          [1, 0, 3, 4, 3, 0, 1],
+          [1, 0, 0, 1, 2, 0, 1],
+          [1, 0, 0, 1, 1, 1, 1],
+          [1, 1, 1, 1, 1, 1, 1]
+        ];
+        break;
   }
+}
+
+function anachech(){
+  for (i = 0; i < 7; i++) {　　　　　　
+    for (j = 0; j < 7; j++) {
+      if(level[i][j] == 2){
+         anasuu++;
+        }
+      }
+    }
 }
 
 //----------------【↑キーボード↑】------------------

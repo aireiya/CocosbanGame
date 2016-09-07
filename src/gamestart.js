@@ -1,7 +1,7 @@
 //clear.js
 var suu = 1;
 
-var gameclear = cc.Layer.extend({
+var gamestart = cc.Layer.extend({
     ctor: function() {
         this._super();
         var size = cc.director.getWinSize();
@@ -17,21 +17,22 @@ var gameclear = cc.Layer.extend({
         label.setPosition(size.width / 2, size.height / 3);
         this.addChild(label, 1); //文字つける時はこっち*/
 
-        var drop00 = cc.Sprite.create(res.clearback_png);　
+        var drop00 = cc.Sprite.create(res.back_png);　
+        drop00.getTexture().setAliasTexParameters();
         drop00.setPosition(size.width / 2, size.height * 0.5);　
+        drop00.setScale(5);
         this.addChild(drop00);
 
-        var drop01 = cc.Sprite.create(res.clear_png);　
-        drop01.setPosition(size.width / 2, size.height * 0.5);　
+        var drop01 = cc.Sprite.create(res.start_png);　
+        drop01.setPosition(size.width / 2, size.height /3);　
+        drop01.setScale(1.5);
         this.addChild(drop01);
 
-        var drop02 = cc.Sprite.create(res.nextstage_png);　
+        /*var drop02 = cc.Sprite.create(res.nextstage_png);　
         drop02.setPosition(size.width / 2, size.height / 3);　
-        this.addChild(drop02);
+        this.addChild(drop02);*/
 
         //------------BGM---------
-
-        audioEngine.stopMusic();
 
         audioEngine = cc.audioEngine;
         audioEngine.playEffect(res.bgm_clear);
@@ -69,7 +70,7 @@ var gameclear = cc.Layer.extend({
 
 });
 
-var GameClearScene = cc.Scene.extend({
+var GameStartScene = cc.Scene.extend({
     onEnter: function() {
         this._super();
 
@@ -77,7 +78,7 @@ var GameClearScene = cc.Scene.extend({
         //var backgroundLayer = new cc.LayerColor(new cc.Color(39, 38, 24, 128));
         //this.addChild(backgroundLayer);
 
-        var layer1 = new gameclear();
+        var layer1 = new gamestart();
         this.addChild(layer1);
     }
 });

@@ -5,6 +5,7 @@
     <script type="text/javascript" src="cocos2d-js-v3.11.js" charset="UTF-8"></script>
     <script type="text/javascript" src="src/resource.js" charset="UTF-8"></script>
     <script type="text/javascript" src="src/gameclear.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="src/gamestart.js" charset="UTF-8"></script>
     <script type="text/javascript" src="src/app.js" charset="UTF-8"></script>
     <script type="text/javascript" src="src/app02.js" charset="UTF-8"></script>
 </head>
@@ -23,7 +24,7 @@
                   cc.view.resizeWithBrowserSize(true);
 
                   cc.LoaderScene.preload(g_resources, function () {
-                       cc.director.runScene(new gameScene());
+                       cc.director.runScene(new GameStartScene());
                   }, this);
               };
               cc.game.run("gameCanvas");
