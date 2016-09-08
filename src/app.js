@@ -70,6 +70,7 @@ var gameLayer = cc.Layer.extend({
   init: function() {
     this._super();
 
+    audioEngine.stopMusic();
     //音楽再生エンジン
     audioEngine = cc.audioEngine;
     //bgm再生
@@ -483,7 +484,7 @@ function stagesel_map(){
         [1, 0, 3, 3, 1, 0, 1],
         [1, 0, 0, 0, 0, 2, 1],
         [1, 0, 0, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1]1]
+        [1, 1, 1, 1, 1, 1, 1]
       ];
       break;
 

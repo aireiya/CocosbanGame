@@ -7,7 +7,8 @@ var res = {
     nextstage_png : "res/nextstage.png",
     clearback_png : "res/souko.jpg",
     back_png : "res/background.png",
-    start_png : "res/start.png"
+    start_png : "res/start.png",
+    bgm_start : "res/tw050.mp3"
 };
 
 var g_resources = [];

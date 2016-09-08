@@ -35,7 +35,11 @@ var gamestart = cc.Layer.extend({
         //------------BGM---------
 
         audioEngine = cc.audioEngine;
-        audioEngine.playEffect(res.bgm_clear);
+        //bgm再生
+        if (!audioEngine.isMusicPlaying()) {
+          //audioEngine.playMusic("res/bgm_main.mp3", true);
+          audioEngine.playMusic(res.bgm_start, true);
+        }
 
 
 
