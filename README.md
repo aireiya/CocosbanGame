@@ -2,6 +2,10 @@
 [https://hosokawa9360.github.io/07_cocosbanGame_js/](https://hosokawa9360.github.io/07_CocosbanGame_js/)  
 
 
+kokosbangame URL
+
+https://aireiya.github.io/CocosbanGame/
+
 ### その１ 画像素材のロード　と　スプライトシートの作成　
 
 ######　画像素材のロード

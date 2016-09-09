@@ -301,7 +301,8 @@ switch(/*("*/level/*0" + kazu)*/[playerPosition.y+deltaY][playerPosition.x+delta
                 if(stage > 4){
                     stage = 1;
                 }
-                cc.director.runScene(new GameClearScene());
+                var c = cc.TransitionFadeDown.create(0.3, new GameClearScene());
+                cc.director.runScene(c);
             }
             else {
               anasuu = 0
