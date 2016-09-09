@@ -260,7 +260,8 @@ switch(/*("*/level/*0" + kazu)*/[playerPosition.y+deltaY][playerPosition.x+delta
         playerPosition.x+=deltaX;
         playerPosition.y+=deltaY;
         /*("*/level/*0" + kazu)*/[playerPosition.y][playerPosition.x]+=4;
-        playerSprite.setPosition(165+25*playerPosition.x,185-25*playerPosition.y);
+        playerSprite.runAction( cc.MoveTo.create(0.2,cc.p(165+25*playerPosition.x,185-25*playerPosition.y)));
+
     break;
     case 5:
         /*anasuu++;
@@ -277,11 +278,10 @@ switch(/*("*/level/*0" + kazu)*/[playerPosition.y+deltaY][playerPosition.x+delta
             playerPosition.x+=deltaX; //x移動
             playerPosition.y+=deltaY; //y移動
             /*("*/level/*0" + kazu)*/[playerPosition.y][playerPosition.x]+=1; //木箱[3]が居座ってるので3+1=4
-            playerSprite.setPosition(165+25*playerPosition.x,185-25*playerPosition.y);//プレイヤー移動
+            playerSprite.runAction( cc.MoveTo.create(0.2,cc.p(165+25*playerPosition.x,185-25*playerPosition.y)));//プレイヤー移動
             /*("*/level/*0" + kazu)*/[playerPosition.y+deltaY][playerPosition.x+deltaX]+=3; //木箱移動
             var movingCrate = cratesArray[playerPosition.y][playerPosition.x]; //画像移動
-            movingCrate.setPosition(movingCrate.getPosition().x+25*deltaX,movingCrate.
-            getPosition().y-25*deltaY);
+            movingCrate.runAction( cc.MoveTo.create(0.2,cc.p(movingCrate.getPosition().x+25*deltaX,movingCrate.getPosition().y-25*deltaY)));
             cratesArray[playerPosition.y+deltaY][playerPosition.x+deltaX]=movingCrate;
             cratesArray[playerPosition.y][playerPosition.x]=null; //木箱移動させたので消す
 
@@ -301,7 +301,7 @@ switch(/*("*/level/*0" + kazu)*/[playerPosition.y+deltaY][playerPosition.x+delta
                 if(stage > 4){
                     stage = 1;
                 }
-                var c = cc.TransitionFadeDown.create(0.3, new GameClearScene());
+                var c = cc.TransitionFadeBL.create(2.5, new GameClearScene());
                 cc.director.runScene(c);
             }
             else {

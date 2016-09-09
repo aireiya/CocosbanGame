@@ -69,7 +69,7 @@ var gamestart = cc.Layer.extend({
       onTouchEnded: function(touch, event) {
         // 次のシーンに切り替える
         audioEngine.stopMusic();
-        var a = cc.TransitionFadeDown.create(0.3, new gameScene());
+        var a = cc.TransitionFade.create(2.0, new gameScene());
         cc.director.runScene(a);
       },
 
